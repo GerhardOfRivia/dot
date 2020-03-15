@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://pong/paddle.gd" type="Script" id=1]
+[ext_resource path="res://pong/Sprites/paddle.png" type="Texture" id=2]
+[ext_resource path="res://pong/ball.gd" type="Script" id=3]
+[ext_resource path="res://pong/Sprites/ball.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 40.0073, 3.97305 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4.03271, 4.01064 )
+
+[node name="world" type="Node2D"]
+
+[node name="paddle" type="KinematicBody2D" parent="."]
+position = Vector2( 340, 320 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="paddle"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Collision" type="CollisionShape2D" parent="paddle"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ball" type="RigidBody2D" parent="."]
+position = Vector2( 340, 250 )
+mode = 2
+mass = 0.00102041
+gravity_scale = 0.0
+linear_velocity = Vector2( 200, -200 )
+linear_damp = 0.0
+angular_damp = 0.0
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="ball"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Collision" type="CollisionShape2D" parent="ball"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="walls" type="StaticBody2D" parent="."]
+editor/display_folded = true
+
+[node name="Collision" type="CollisionPolygon2D" parent="walls"]
+polygon = PoolVector2Array( 0, 360, -20, 360, -20, -20, 660, -20, 660, 360, 640, 360, 640, 0, 0, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
