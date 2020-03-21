@@ -11,27 +11,37 @@ extends KinematicBody2D
 #	pass
 
 var velocity = Vector2.ZERO
-const MAX_SPEED = 50
-const STRENGTH = 1
+const MAX_SPEED = 150
+const STRENGTH = 50
+
+var state = ["idel_right", null]
+onready var animation_player = $AnimationPlayer
 
 func _process(delta):
+	var input_vector = Vector2.ZERO
+
 	if Input.is_key_pressed(KEY_W) and not Input.is_key_pressed(KEY_S):
-		velocity.y = -STRENGTH
+		input_vector.y = -STRENGTH
+		state = ["idel_up", "run_up"]
 	elif Input.is_key_pressed(KEY_S) and not Input.is_key_pressed(KEY_W):
-		velocity.y = STRENGTH
-	else:
-		velocity.y = 0
+		input_vector.y = STRENGTH
+		state = ["idel_down", "run_down"]
 	
 	if Input.is_key_pressed(KEY_A) and not Input.is_key_pressed(KEY_D):
-		velocity.x = -STRENGTH
+		input_vector.x = -STRENGTH
+		state = ["idel_left", "run_left"]
 	elif Input.is_key_pressed(KEY_D) and not Input.is_key_pressed(KEY_A):
-		velocity.x = STRENGTH
-	else: 
-		velocity.x = 0
-		
-	velocity.normalized()
+		input_vector.x = STRENGTH
+		state = ["idel_right", "run_right"]
+	
+	if input_vector != Vector2.ZERO:
+		velocity = velocity.move_toward(input_vector, MAX_SPEED)
+		animation_player.play(state[1])
+	else:
+		velocity = Vector2.ZERO
+		animation_player.play(state[0])
 
-	move_and_collide(velocity * delta * MAX_SPEED)
+	velocity = move_and_slide(velocity)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
