@@ -14,32 +14,33 @@ var velocity = Vector2.ZERO
 const MAX_SPEED = 150
 const STRENGTH = 50
 
-var state = ["idel_right", null]
 onready var animation_player = $AnimationPlayer
+onready var animation_tree = $AnimationTree
+onready var animation_state = animation_tree.get("parameters/playback")
 
-func _process(delta):
+func _physics_process(delta):
 	var input_vector = Vector2.ZERO
 
 	if Input.is_key_pressed(KEY_W) and not Input.is_key_pressed(KEY_S):
-		input_vector.y = -STRENGTH
-		state = ["idel_up", "run_up"]
+		input_vector.y = -1
 	elif Input.is_key_pressed(KEY_S) and not Input.is_key_pressed(KEY_W):
-		input_vector.y = STRENGTH
-		state = ["idel_down", "run_down"]
+		input_vector.y = 1
 	
 	if Input.is_key_pressed(KEY_A) and not Input.is_key_pressed(KEY_D):
-		input_vector.x = -STRENGTH
-		state = ["idel_left", "run_left"]
+		input_vector.x = -1
 	elif Input.is_key_pressed(KEY_D) and not Input.is_key_pressed(KEY_A):
-		input_vector.x = STRENGTH
-		state = ["idel_right", "run_right"]
+		input_vector.x = 1
+		
+	input_vector = input_vector.normalized()
 	
 	if input_vector != Vector2.ZERO:
-		velocity = velocity.move_toward(input_vector, MAX_SPEED)
-		animation_player.play(state[1])
+		animation_tree.set("parameters/Idle/blend_position", input_vector)
+		animation_tree.set("parameters/Run/blend_position", input_vector)
+		animation_state.travel("Run")
+		velocity = velocity.move_toward(input_vector * STRENGTH, MAX_SPEED)
 	else:
+		animation_state.travel("Idle")
 		velocity = Vector2.ZERO
-		animation_player.play(state[0])
 
 	velocity = move_and_slide(velocity)
 
