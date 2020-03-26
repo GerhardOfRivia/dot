@@ -11,8 +11,8 @@ extends KinematicBody2D
 #	pass
 
 var velocity = Vector2.ZERO
-const MAX_SPEED = 150
-const STRENGTH = 50
+const MAX_SPEED = 200
+const STRENGTH = 75
 
 onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
