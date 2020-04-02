@@ -1,15 +1,12 @@
 extends KinematicBody2D
 
+enum {
+	MOVE,
+	ROLL,
+	ATTACK
+}
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-#	pass
-
+var state = MOVE
 var velocity = Vector2.ZERO
 const MAX_SPEED = 200
 const STRENGTH = 75
@@ -18,24 +15,33 @@ onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 
-func _physics_process(delta):
-	var input_vector = Vector2.ZERO
+func _ready():
+	animation_tree.active = true
 
-	if Input.is_key_pressed(KEY_W) and not Input.is_key_pressed(KEY_S):
-		input_vector.y = -1
-	elif Input.is_key_pressed(KEY_S) and not Input.is_key_pressed(KEY_W):
-		input_vector.y = 1
-	
-	if Input.is_key_pressed(KEY_A) and not Input.is_key_pressed(KEY_D):
-		input_vector.x = -1
-	elif Input.is_key_pressed(KEY_D) and not Input.is_key_pressed(KEY_A):
-		input_vector.x = 1
+func _physics_process(delta):
+	match state:
+		MOVE:
+			move_state(delta)
 		
-	input_vector = input_vector.normalized()
+		ROLL:
+			roll_state(delta)
+		
+		ATTACK:
+			attack_state(delta)
 	
-	if input_vector != Vector2.ZERO:
+func move_state(delta):
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+		
+	if Input.is_action_just_pressed("attack"):
+		state = ATTACK
+		velocity = Vector2.ZERO
+	elif input_vector != Vector2.ZERO:
 		animation_tree.set("parameters/Idle/blend_position", input_vector)
 		animation_tree.set("parameters/Run/blend_position", input_vector)
+		animation_tree.set("parameters/Attack/blend_position", input_vector)
 		animation_state.travel("Run")
 		velocity = velocity.move_toward(input_vector * STRENGTH, MAX_SPEED)
 	else:
@@ -44,6 +50,13 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
+func roll_state(delta):
+	pass
+
+func attack_state(delta):
+	velocity = Vector2.ZERO
+	animation_state.travel("Attack")
+
+func attack_complete():
+	state = MOVE
