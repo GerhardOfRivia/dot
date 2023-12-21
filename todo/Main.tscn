@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://cup8yakpw0yhu"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_18kar"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_18kar")
+
+[node name="Contents" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxTitle" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Export" type="Button" parent="Contents/HBoxTitle"]
+layout_mode = 2
+text = "EXPORT"
+
+[node name="Title" type="Label" parent="Contents/HBoxTitle"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "TODO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NewTodoInput" type="LineEdit" parent="Contents/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 20.0
+
+[node name="AddTodo" type="Button" parent="Contents/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 20.0
+follow_focus = true
+
+[node name="TodoList" type="VBoxContainer" parent="Contents/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="text_submitted" from="Contents/HBoxContainer/NewTodoInput" to="." method="_on_new_todo_input_text_submitted"]
+[connection signal="pressed" from="Contents/HBoxContainer/AddTodo" to="." method="_on_add_todo_pressed"]

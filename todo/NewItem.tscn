@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh7dricq1ces6"]
+
+[ext_resource type="Script" path="res://NewItem.gd" id="1_a5akv"]
+
+[node name="NewItem" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_a5akv")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item Contents"
+horizontal_alignment = 1
+
+[node name="Complete" type="Button" parent="."]
+layout_mode = 2
+text = "COMPLETE"
+
+[node name="Delete" type="Button" parent="."]
+layout_mode = 2
+text = "DELETE"
+
+[connection signal="pressed" from="Complete" to="." method="_on_complete_pressed"]
+[connection signal="pressed" from="Delete" to="." method="_on_delete_pressed"]
