@@ -11,6 +11,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_18kar")
 
+[node name="Tasks" type="HTTPRequest" parent="."]
+
+[node name="NewTask" type="HTTPRequest" parent="."]
+
+[node name="Users" type="HTTPRequest" parent="."]
+
 [node name="Contents" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15

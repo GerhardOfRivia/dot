@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://dw5iby7yptthd"]
+
+[ext_resource type="Script" uid="uid://dldpqerwwcusm" path="res://scenes/pipe.gd" id="1_78010"]
+[ext_resource type="Texture2D" uid="uid://cvpcxfl5smw0b" path="res://assets/pipe.png" id="1_bepn3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78010"]
+size = Vector2(72, 524)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arayy"]
+size = Vector2(78, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uqvy"]
+size = Vector2(72, 524)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i3wvs"]
+size = Vector2(78, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arpqm"]
+size = Vector2(20, 200)
+
+[node name="Pipe" type="Area2D" groups=["pipes"]]
+position = Vector2(0, 380)
+script = ExtResource("1_78010")
+
+[node name="Lower" type="Sprite2D" parent="."]
+texture = ExtResource("1_bepn3")
+offset = Vector2(0, 380)
+
+[node name="LowerCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 398)
+shape = SubResource("RectangleShape2D_78010")
+
+[node name="LowerTopCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 118)
+shape = SubResource("RectangleShape2D_arayy")
+
+[node name="Upper" type="Sprite2D" parent="."]
+texture = ExtResource("1_bepn3")
+offset = Vector2(0, -380)
+flip_v = true
+
+[node name="UpperCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -398)
+shape = SubResource("RectangleShape2D_1uqvy")
+
+[node name="UpperTopCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -118)
+shape = SubResource("RectangleShape2D_i3wvs")
+
+[node name="ScoreArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
+position = Vector2(49, 0)
+shape = SubResource("RectangleShape2D_arpqm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="ScoreArea" to="." method="_on_score_area_body_entered"]
