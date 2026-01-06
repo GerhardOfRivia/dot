@@ -12,7 +12,7 @@ script = ExtResource("1_tbgi4")
 pipe_scene = ExtResource("2_tefeu")
 
 [node name="Bg" type="Sprite2D" parent="."]
-position = Vector2(426, 384)
+position = Vector2(432, 384)
 texture = ExtResource("1_ig7tw")
 
 [node name="Bird" parent="." instance=ExtResource("2_0xm2m")]

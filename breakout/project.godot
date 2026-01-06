@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Flappy"
-run/main_scene="uid://8t307e547wpt"
+config/name="Breakout"
+run/main_scene="uid://dqqdmismi0wka"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
